@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "aa322c53454393ed775cfe4807d54a50",
+    "content-hash": "e8bcad7e82461d76e9b11000da3016f2",
     "packages": [
         {
             "name": "brick/math",
@@ -973,6 +973,46 @@
                 }
             ],
             "time": "2021-10-07T12:57:01+00:00"
+        },
+        {
+            "name": "justfeel/response",
+            "version": "v1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fsarikaya96/custom-response.git",
+                "reference": "a1d28a29926f42fcc7d1e93d44c8c716b88aeca9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fsarikaya96/custom-response/zipball/a1d28a29926f42fcc7d1e93d44c8c716b88aeca9",
+                "reference": "a1d28a29926f42fcc7d1e93d44c8c716b88aeca9",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Justfeel\\Response\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "fsarikaya96",
+                    "email": "fsarikaya96@hotmail.com"
+                }
+            ],
+            "description": "A plugin made for custom response",
+            "support": {
+                "issues": "https://github.com/fsarikaya96/custom-response/issues",
+                "source": "https://github.com/fsarikaya96/custom-response/tree/v1.0"
+            },
+            "time": "2023-01-29T08:09:08+00:00"
         },
         {
             "name": "laravel/framework",
@@ -7939,7 +7979,8 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^8.1"
+        "php": "^8.1",
+        "ext-http": "*"
     },
     "platform-dev": [],
     "plugin-api-version": "2.3.0"
