@@ -38,6 +38,7 @@ class UserService implements IUserService
      */
     public function generateToken(LoginRequest $request): JsonResponse
     {
+
         Log::channel('api')->info("UserService called --> Request generateToken() function");
         try {
             $credentials = $request->only('email', 'password');

@@ -14,6 +14,7 @@ class Statuses extends Model
 {
     use HasFactory, SoftDeletes;
 
+    public mixed $id;
     protected $fillable = [
         'uuid',
         'code',

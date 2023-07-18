@@ -15,6 +15,7 @@ class Post extends Model
         'title',
         'description',
         'views',
+        'status_id',
         'created_by_user_id'
     ];
 }

@@ -15,11 +15,13 @@ return new class extends Migration {
             $table->uuid();
             $table->string('title');
             $table->longText('description');
-            $table->integer('views');
+            $table->integer('views')->default(1);
+            $table->unsignedBigInteger('status_id');
             $table->unsignedBigInteger('created_by_user_id');
             $table->timestamps();
             $table->softDeletes();
 
+            $table->foreign('status_id')->references('id')->on('statuses')->cascadeOnDelete();
             $table->foreign('created_by_user_id')->references('id')->on('users')->cascadeOnDelete();
         });
     }
