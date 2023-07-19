@@ -10,17 +10,20 @@ use Illuminate\Support\Collection;
 class PostRepository implements IPostRepository
 {
 
-    public function index(): Collection
+    public function findAll(): Collection
     {
         return Post::query()->get();
     }
 
-    public function show(string $uuid)
+    public function find(string $uuid): ?Post
     {
-        return Post::query()->where('uuid', '=', $uuid)->first();
+        /** @var Post $post */
+        $post = Post::query()->where('uuid', '=', $uuid)->first();
+
+        return $post;
     }
 
-    public function store($post): Post
+    public function store(Post $post): Post
     {
         $post->save();
 

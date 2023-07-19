@@ -23,7 +23,7 @@ class PostController extends Controller
      */
     public function index(): JsonResponse
     {
-        return $this->postService->index();
+        return $this->postService->findAll();
     }
 
     /**
@@ -39,7 +39,7 @@ class PostController extends Controller
      */
     public function show(string $uuid): JsonResponse
     {
-        return $this->postService->show($uuid);
+        return $this->postService->find($uuid);
     }
 
     /**

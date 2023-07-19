@@ -8,13 +8,13 @@ use Illuminate\Http\JsonResponse;
 
 interface IPostService
 {
-    public function index(): JsonResponse;
+    public function findAll(): JsonResponse;
 
-    public function show(string $uuid): JsonResponse;
+    public function find(string $uuid): JsonResponse;
 
     public function store(StorePostRequest $request): JsonResponse;
 
     public function update(UpdatePostRequest $request, string $uuid): JsonResponse;
 
-    public function destroy(string $uuid);
+    public function destroy(string $uuid): JsonResponse;
 }

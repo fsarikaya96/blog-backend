@@ -9,13 +9,13 @@ use Illuminate\Support\Collection;
 
 interface IPostRepository
 {
-    public function index(): Collection;
+    public function findAll(): Collection;
 
-    public function show(string $uuid);
+    public function find(string $uuid): ?Post;
 
-    public function store($post);
+    public function store(Post $post): Post;
 
-    public function update(Post $post);
+    public function update(Post $post): Post;
 
-    public function destroy(Post $post);
+    public function destroy(Post $post): bool;
 }

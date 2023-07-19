@@ -41,12 +41,4 @@ class StorePostRequest extends FormRequest
             'created_by_user_id' => 'required',
         ];
     }
-
-    protected function prepareForValidation()
-    {
-        $this->merge([
-            'uuid' => Str::uuid(),
-            'created_by_user_id' => Auth::id(),
-        ]);
-    }
 }

@@ -10,8 +10,10 @@ use App\Services\Backend\Interfaces\IPostService;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 use Justfeel\Response\ResponseCodes;
 use Justfeel\Response\ResponseResult;
 
@@ -24,13 +26,13 @@ class PostService implements IPostService
         $this->postRepository = $IPostRepository;
     }
 
-    public function index(): JsonResponse
+    public function findAll(): JsonResponse
     {
         Log::channel('api')->info("PostService called --> Request index() function");
         try {
             Log::channel('api')->info("PostService called --> Return all posts");
 
-            $posts = $this->postRepository->index();
+            $posts = $this->postRepository->findAll();
 
             return ResponseResult::generate(true, $posts);
         } catch (Exception $exception) {
@@ -39,12 +41,12 @@ class PostService implements IPostService
         }
     }
 
-    public function show(string $uuid): JsonResponse
+    public function find(string $uuid): JsonResponse
     {
-        Log::channel('api')->info("PostService called --> Request show() function");
+        Log::channel('api')->info("PostService called --> Request find() function");
         try {
 
-            $post = $this->postRepository->show($uuid);
+            $post = $this->postRepository->find($uuid);
 
             Log::channel('api')->info("PostService called --> Return post by uuid : " . $uuid);
 
@@ -53,7 +55,7 @@ class PostService implements IPostService
             }
             return ResponseResult::generate(true, $post);
         } catch (Exception $exception) {
-            Log::channel('api')->info("PostService called --> show() exception : " . $exception->getMessage());
+            Log::channel('api')->info("PostService called --> find() exception : " . $exception->getMessage());
             return ResponseResult::generate(false, [__('service.error_occurred_during_operation')], ResponseCodes::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -64,7 +66,13 @@ class PostService implements IPostService
 
         Log::channel('api')->info("PostService called --> Request store() function");
         try {
-            $post = Post::query()->create($request->validated());
+
+            $post = new Post();
+            $post->uuid = Str::uuid();
+            $post->title = $request->input('title');
+            $post->description = $request->input('description');
+            $post->status_id = $request->input('status_id');
+            $post->created_by_user_id = Auth::id();
 
             $this->postRepository->store($post);
 
@@ -86,9 +94,15 @@ class PostService implements IPostService
 
         Log::channel('api')->info("PostService called --> Request update() function");
         try {
-            $post = $this->postRepository->show($uuid);
+            $post = $this->postRepository->find($uuid);
 
-            $post?->update($request->validated());
+            if (!$post) {
+                return ResponseResult::generate(false, [__('service.error_occurred_during_operation')], ResponseCodes::HTTP_NOT_FOUND);
+            }
+
+            $post->title = $request->input('title');
+            $post->description = $request->input('description');
+            $post->status_id = $request->input('status_id');
 
             $this->postRepository->update($post);
 
@@ -110,7 +124,7 @@ class PostService implements IPostService
 
         Log::channel('api')->info("PostService called --> Request destroy() function");
         try {
-            $post = $this->postRepository->show($uuid);
+            $post = $this->postRepository->find($uuid);
 
             if (!$post) {
                 return ResponseResult::generate(false, [__('service.something_went_wrong')], ResponseCodes::HTTP_NOT_FOUND);
