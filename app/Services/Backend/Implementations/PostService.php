@@ -28,7 +28,7 @@ class PostService implements IPostService
 
     public function findAll(): JsonResponse
     {
-        Log::channel('api')->info("PostService called --> Request index() function");
+        Log::channel('api')->info("PostService called --> Request findAll() function");
         try {
             Log::channel('api')->info("PostService called --> Return all posts");
 
@@ -36,7 +36,7 @@ class PostService implements IPostService
 
             return ResponseResult::generate(true, $posts);
         } catch (Exception $exception) {
-            Log::channel('api')->info("PostService called --> index() exception : " . $exception->getMessage());
+            Log::channel('api')->info("PostService called --> findAll() exception : " . $exception->getMessage());
             return ResponseResult::generate(false, [__('service.error_occurred_during_operation')], ResponseCodes::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
