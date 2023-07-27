@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static active()
  * @method static passive()
  */
-class Statuses extends Model
+class Status extends Model
 {
     use HasFactory, SoftDeletes;
 

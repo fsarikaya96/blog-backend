@@ -53,7 +53,7 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $uuid)
+    public function destroy(string $uuid): JsonResponse
     {
         return $this->postService->destroy($uuid);
     }

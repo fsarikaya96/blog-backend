@@ -1,17 +1,14 @@
 <?php
 
-namespace App\Http\Requests\Post;
+namespace App\Http\Requests\Tag;
 
-use App\Models\Status;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 use Justfeel\Response\ResponseCodes;
 use Justfeel\Response\ResponseResult;
 
-class StorePostRequest extends FormRequest
+class UpdateTagRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -34,11 +31,7 @@ class StorePostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'uuid' => 'required',
-            'title' => 'required',
-            'description' => 'required',
-            'status_id' => 'required',
-            'created_by_user_id' => 'required',
+            'name' => 'required'
         ];
     }
 }
