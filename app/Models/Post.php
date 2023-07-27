@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -14,7 +17,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property mixed $status_id;
  * @property mixed $created_by_user_id;
  */
-
 class Post extends Model
 {
     use HasFactory, SoftDeletes;
@@ -27,4 +29,14 @@ class Post extends Model
         'status_id',
         'created_by_user_id'
     ];
+
+    public function tags(): BelongsToMany
+    {
+        return $this->belongsToMany(Tag::class)->withTimestamps();
+    }
+
+    public function meta(): HasOne
+    {
+        return $this->hasOne(Meta::class);
+    }
 }

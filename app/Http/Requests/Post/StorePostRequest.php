@@ -37,6 +37,10 @@ class StorePostRequest extends FormRequest
             'uuid' => 'required',
             'title' => 'required',
             'description' => 'required',
+            'tags' => 'required',
+            'meta_title' => 'required',
+            'meta_keyword' => 'required',
+            'meta_description' => 'required',
             'status_id' => 'required',
             'created_by_user_id' => 'required',
         ];

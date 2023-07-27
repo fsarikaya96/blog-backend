@@ -4,7 +4,9 @@ namespace App\Services\Backend\Implementations;
 
 use App\Http\Requests\Post\StorePostRequest;
 use App\Http\Requests\Post\UpdatePostRequest;
+use App\Models\Meta;
 use App\Models\Post;
+use App\Repositories\Backend\Interfaces\IMetaRepository;
 use App\Repositories\Backend\Interfaces\IPostRepository;
 use App\Services\Backend\Interfaces\IPostService;
 use Exception;
@@ -20,10 +22,12 @@ use Justfeel\Response\ResponseResult;
 class PostService implements IPostService
 {
     protected IPostRepository $postRepository;
+    protected IMetaRepository $metaRepository;
 
-    public function __construct(IPostRepository $IPostRepository)
+    public function __construct(IPostRepository $IPostRepository, IMetaRepository $IMetaRepository)
     {
         $this->postRepository = $IPostRepository;
+        $this->metaRepository = $IMetaRepository;
     }
 
     public function findAll(): JsonResponse
@@ -74,7 +78,20 @@ class PostService implements IPostService
             $post->status_id = $request->input('status_id');
             $post->created_by_user_id = Auth::id();
 
-            $this->postRepository->store($post);
+            $post = $this->postRepository->store($post);
+
+            $tags = $request->input('tags');
+
+            $post?->tags()->sync($tags);
+
+            $meta = new Meta();
+            $meta->uuid = Str::uuid();
+            $meta->post_id = $post->id;
+            $meta->meta_title = $request->input('meta_title');
+            $meta->meta_keyword = $request->input('meta_keyword');
+            $meta->meta_description = $request->input('meta_description');
+
+            $this->metaRepository->store($meta);
 
             DB::commit();
 
@@ -82,7 +99,6 @@ class PostService implements IPostService
             return ResponseResult::generate(true, __('service.the_operation_was_successful'));
         } catch (Exception $exception) {
             DB::rollBack();
-
             Log::channel('api')->info("PostService called --> store() exception : " . $exception->getMessage());
             return ResponseResult::generate(false, [__('service.error_occurred_during_operation')], ResponseCodes::HTTP_INTERNAL_SERVER_ERROR);
         }

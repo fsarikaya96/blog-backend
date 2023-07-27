@@ -6,6 +6,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * @property mixed $uuid;
+ * @property mixed post_id;
+ * @property mixed meta_title;
+ * @property mixed meta_keyword;
+ * @property mixed meta_description;
+ */
+
 class Meta extends Model
 {
     use HasFactory, SoftDeletes;
@@ -17,4 +25,5 @@ class Meta extends Model
         'meta_keyword',
         'meta_description'
     ];
+
 }
