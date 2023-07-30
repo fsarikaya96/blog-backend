@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Backend\Api\v1\AboutController;
 use App\Http\Controllers\Backend\Api\v1\PostController;
 use App\Http\Controllers\Backend\Api\v1\TagController;
 use App\Http\Controllers\Backend\Api\v1\UserController;
@@ -19,8 +20,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->prefix('v1')->group(function () {
 
-    Route::resource('posts', PostController::class);
-    Route::resource('tags', TagController::class);
+    Route::resource('posts', PostController::class)->except('create', 'edit');
+    Route::resource('tags', TagController::class)->except('create', 'edit');
+    Route::resource('abouts', AboutController::class)->only('index', 'store');
 
 });
 
