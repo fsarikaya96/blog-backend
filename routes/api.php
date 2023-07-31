@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Backend\Api\v1\AboutController;
 use App\Http\Controllers\Backend\Api\v1\PostController;
+use App\Http\Controllers\Backend\Api\v1\ProjectController;
 use App\Http\Controllers\Backend\Api\v1\TagController;
 use App\Http\Controllers\Backend\Api\v1\UserController;
 use Illuminate\Http\Request;
@@ -23,6 +24,7 @@ Route::middleware('auth:sanctum')->prefix('v1')->group(function () {
     Route::resource('posts', PostController::class)->except('create', 'edit');
     Route::resource('tags', TagController::class)->except('create', 'edit');
     Route::resource('abouts', AboutController::class)->only('index', 'store');
+    Route::resource('projects', ProjectController::class)->except('create', 'edit');
 
 });
 
