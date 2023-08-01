@@ -34,11 +34,10 @@ class ProjectService implements IProjectService
         Log::channel('api')->info("ProjectService called --> Request findAll() function");
 
         try {
-            // repo call
-            Log::channel('api')->info("ProjectService called --> Return all posts");
 
             $projects = $this->projectRepository->findAll();
 
+            Log::channel('api')->info("ProjectService called --> Return all projects : " . $projects);
             return ResponseResult::generate(true, $projects);
         } catch (Exception $exception) {
             Log::channel('api')->info("ProjectService called --> findAll() exception : " . $exception->getMessage());
@@ -161,6 +160,13 @@ class ProjectService implements IProjectService
                 return ResponseResult::generate(false, [__('service.something_went_wrong')], ResponseCodes::HTTP_NOT_FOUND);
             }
             $this->projectRepository->destroy($project);
+
+            $project_image = $this->projectImageRepository->find($project->id);
+
+            if (!$project_image) {
+                return ResponseResult::generate(false, [__('service.something_went_wrong')], ResponseCodes::HTTP_NOT_FOUND);
+            }
+            $this->projectImageRepository->destroy($project_image);
 
             DB::commit();
 

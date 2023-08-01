@@ -14,9 +14,14 @@ return new class extends Migration
         Schema::create('page_settings', function (Blueprint $table) {
             $table->id();
             $table->uuid();
-            $table->json('resources');
-            $table->json('contacts');
-            $table->json('links');
+            $table->string('website_name');
+            $table->string('website_url');
+            $table->string('website_title');
+            $table->string('meta_keyword');
+            $table->string('meta_description');
+            $table->string('email');
+            $table->string('github');
+            $table->string('linkedin');
             $table->timestamps();
             $table->softDeletes();
         });

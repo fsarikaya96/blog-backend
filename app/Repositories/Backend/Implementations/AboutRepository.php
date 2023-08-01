@@ -10,7 +10,7 @@ use Illuminate\Support\Collection;
 
 class AboutRepository implements IAboutRepository
 {
-    public function index(): About
+    public function index(): ?About
     {
         /** @var About $about */
         $about = About::query()->first();

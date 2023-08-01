@@ -29,11 +29,10 @@ class TagService implements ITagService
     public function findAll(): JsonResponse
     {
         Log::channel('api')->info("TagService called --> Request findAll() function");
-
         try {
-            Log::channel('api')->info("TagService called --> Return all tags");
-
             $tags = $this->tagRepository->findAll();
+
+            Log::channel('api')->info("TagService called --> Return all tags : " . $tags);
 
             return ResponseResult::generate(true, $tags);
         } catch (Exception $exception) {

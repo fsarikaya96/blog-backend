@@ -35,9 +35,9 @@ class PostService implements IPostService
     {
         Log::channel('api')->info("PostService called --> Request findAll() function");
         try {
-            Log::channel('api')->info("PostService called --> Return all posts");
-
             $posts = $this->postRepository->findAll();
+
+            Log::channel('api')->info("PostService called --> Return all posts : ". $posts);
 
             return ResponseResult::generate(true, $posts);
         } catch (Exception $exception) {

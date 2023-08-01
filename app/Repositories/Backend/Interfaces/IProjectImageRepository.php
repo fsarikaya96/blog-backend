@@ -11,4 +11,6 @@ interface IProjectImageRepository
     public function store(ProjectImage $projectImage): ProjectImage;
 
     public function update(ProjectImage $projectImage): ProjectImage;
+
+    public function destroy(ProjectImage $projectImage): bool;
 }

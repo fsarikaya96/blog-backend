@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
 
 interface IAboutRepository
 {
-    public function index(): About;
+    public function index(): ?About;
 
     public function store(About $about): About;
 

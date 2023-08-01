@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Backend\Api\v1\AboutController;
+use App\Http\Controllers\Backend\Api\v1\PageSettingController;
 use App\Http\Controllers\Backend\Api\v1\PostController;
 use App\Http\Controllers\Backend\Api\v1\ProjectController;
 use App\Http\Controllers\Backend\Api\v1\TagController;
@@ -25,6 +26,7 @@ Route::middleware('auth:sanctum')->prefix('v1')->group(function () {
     Route::resource('tags', TagController::class)->except('create', 'edit');
     Route::resource('abouts', AboutController::class)->only('index', 'store');
     Route::resource('projects', ProjectController::class)->except('create', 'edit');
+    Route::resource('page-settings', PageSettingController::class)->only('index', 'store');
 
 });
 

@@ -28,4 +28,9 @@ class ProjectImageRepository implements IProjectImageRepository
 
         return $projectImage;
     }
+
+    public function destroy(ProjectImage $projectImage): bool
+    {
+        return $projectImage->delete();
+    }
 }

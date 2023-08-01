@@ -25,17 +25,17 @@ class AboutService implements IAboutService
 
     public function index(): JsonResponse
     {
-        Log::channel('api')->info("AboutService called --> Request findAll() function");
+        Log::channel('api')->info("AboutService called --> Request index() function");
 
         try {
-            Log::channel('api')->info("AboutService called --> Return about");
-
             $about = $this->aboutRepository->index();
+
+            Log::channel('api')->info("AboutService called --> Return about : " . $about);
 
             return ResponseResult::generate(true, $about);
 
         } catch (Exception $exception) {
-            Log::channel('api')->info("AboutService called --> findAll() exception : " . $exception->getMessage());
+            Log::channel('api')->info("AboutService called --> index() exception : " . $exception->getMessage());
             return ResponseResult::generate(false, [__('service.error_occurred_during_operation')], ResponseCodes::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
