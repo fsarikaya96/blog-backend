@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property mixed meta_description;
  */
 
-class Meta extends Model
+class PostMeta extends Model
 {
     use HasFactory, SoftDeletes;
 

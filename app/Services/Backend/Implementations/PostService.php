@@ -4,9 +4,10 @@ namespace App\Services\Backend\Implementations;
 
 use App\Http\Requests\Post\StorePostRequest;
 use App\Http\Requests\Post\UpdatePostRequest;
-use App\Models\Meta;
 use App\Models\Post;
-use App\Repositories\Backend\Interfaces\IMetaRepository;
+use App\Models\PostMeta;
+use App\Models\PostTag;
+use App\Repositories\Backend\Interfaces\IPostMetaRepository;
 use App\Repositories\Backend\Interfaces\IPostRepository;
 use App\Services\Backend\Interfaces\IPostService;
 use Exception;
@@ -22,12 +23,12 @@ use Justfeel\Response\ResponseResult;
 class PostService implements IPostService
 {
     protected IPostRepository $postRepository;
-    protected IMetaRepository $metaRepository;
+    protected IPostMetaRepository $postMetaRepository;
 
-    public function __construct(IPostRepository $IPostRepository, IMetaRepository $IMetaRepository)
+    public function __construct(IPostRepository $IPostRepository, IPostMetaRepository $IPostMetaRepository)
     {
         $this->postRepository = $IPostRepository;
-        $this->metaRepository = $IMetaRepository;
+        $this->postMetaRepository = $IPostMetaRepository;
     }
 
     public function findAll(): JsonResponse
@@ -84,14 +85,14 @@ class PostService implements IPostService
 
             $post?->tags()->sync($tags);
 
-            $meta = new Meta();
-            $meta->uuid = Str::uuid();
-            $meta->post_id = $post->id;
-            $meta->meta_title = $request->input('meta_title');
-            $meta->meta_keyword = $request->input('meta_keyword');
-            $meta->meta_description = $request->input('meta_description');
+            $post_meta = new PostMeta();
+            $post_meta->uuid = Str::uuid();
+            $post_meta->post_id = $post->id;
+            $post_meta->meta_title = $request->input('meta_title');
+            $post_meta->meta_keyword = $request->input('meta_keyword');
+            $post_meta->meta_description = $request->input('meta_description');
 
-            $this->metaRepository->store($meta);
+            $this->postMetaRepository->store($post_meta);
 
             DB::commit();
 
@@ -99,6 +100,7 @@ class PostService implements IPostService
             return ResponseResult::generate(true, __('service.the_operation_was_successful'));
         } catch (Exception $exception) {
             DB::rollBack();
+            dd($exception->getMessage());
             Log::channel('api')->info("PostService called --> store() exception : " . $exception->getMessage());
             return ResponseResult::generate(false, [__('service.error_occurred_during_operation')], ResponseCodes::HTTP_INTERNAL_SERVER_ERROR);
         }

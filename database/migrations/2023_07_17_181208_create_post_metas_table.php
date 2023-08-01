@@ -4,21 +4,24 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('posts_tags', function (Blueprint $table) {
+        Schema::create('post_metas', function (Blueprint $table) {
             $table->id();
+            $table->uuid();
             $table->unsignedBigInteger('post_id');
-            $table->unsignedBigInteger('tag_id');
+            $table->string('meta_title');
+            $table->string('meta_keyword');
+            $table->string('meta_description');
             $table->timestamps();
             $table->softDeletes();
 
             $table->foreign('post_id')->references('id')->on('posts')->cascadeOnDelete();
-            $table->foreign('tag_id')->references('id')->on('tags')->cascadeOnDelete();
         });
     }
 
@@ -27,6 +30,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('posts_tags');
+        Schema::dropIfExists('post_metas');
     }
 };
