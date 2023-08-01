@@ -100,7 +100,6 @@ class PostService implements IPostService
             return ResponseResult::generate(true, __('service.the_operation_was_successful'));
         } catch (Exception $exception) {
             DB::rollBack();
-            dd($exception->getMessage());
             Log::channel('api')->info("PostService called --> store() exception : " . $exception->getMessage());
             return ResponseResult::generate(false, [__('service.error_occurred_during_operation')], ResponseCodes::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -123,6 +122,18 @@ class PostService implements IPostService
             $post->status_id = $request->input('status_id');
 
             $this->postRepository->update($post);
+
+            $tags = $request->input('tags');
+
+            $post?->tags()->sync($tags);
+
+            $post_meta = $this->postMetaRepository->find($post->id);
+
+            $post_meta->meta_title = $request->input('meta_title');
+            $post_meta->meta_keyword = $request->input('meta_keyword');
+            $post_meta->meta_description = $request->input('meta_description');
+
+            $this->postMetaRepository->update($post_meta);
 
             DB::commit();
 

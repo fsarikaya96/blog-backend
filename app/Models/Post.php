@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
+ * @property mixed $id;
  * @property mixed $uuid;
  * @property mixed $title;
  * @property mixed $description;
